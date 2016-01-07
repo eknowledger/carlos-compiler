@@ -13,16 +13,16 @@ describe('The compiler', () => {
 
   it('can parse break statements', () => {
     var program = "  break ; break;    break;"
-    grammar.match(program).succeeded().should.be.true;
+    grammar.match(program).succeeded().should.be.true();
   });
 
   it('rejects the empty program', () => {
     var program = ""
-    grammar.match(program).succeeded().should.be.false;
+    grammar.match(program).succeeded().should.be.false();
   });
 
   it('rejects a misspelled break statement', () => {
     var program = "  break ; break;    breakz;"
-    grammar.match(program).succeeded().should.be.false;
+    grammar.match(program).succeeded().should.be.false();
   });
 });
