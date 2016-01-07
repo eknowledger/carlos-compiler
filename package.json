@@ -1,0 +1,17 @@
+{
+  "name": "carlos-compiler",
+  "version": "0.0.1",
+  "description": "A simple compiler for the Carlos programming language",
+  "dependencies": {
+    "yargs": "latest",
+    "xregexp": "latest",
+    "ohm-js": "latest"
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "should": "latest"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
