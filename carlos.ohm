@@ -99,6 +99,6 @@ Carlos {
   incop       =  "++" | "--"
   primtype    =  "boolean" | "char" | "int" | "real" | "string"
 
-  space       :=  "\x20" | "\x09" | "\x0A" | "\x0D" | comment
+  space      :=  "\x20" | "\x09" | "\x0A" | "\x0D" | comment
   comment     =  "//" (~"\n" any)* "\n"
 }
