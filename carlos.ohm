@@ -49,7 +49,8 @@ Carlos {
               |  Exp8
   Exp8        =  Exp8 mulop Exp9            -- times
               |  Exp9
-  Exp9        =  prefixop? Exp10            -- unary
+  Exp9        =  Exp10
+              |  prefixop Exp10             -- unary
   Exp10       =  Literal
               |  Increment
               |  Var
@@ -78,8 +79,9 @@ Carlos {
   keyword     =  ("boolean" | "if" | "break" | "else" | "int"
               |  "for" | "new" | "return" | "char" | "struct"
               |  "null" | "while" | "real" | "true" | "string"
-              |  "void" | "false" | "length" | "print") ~alnum
-  id          =  ~keyword letter alnum*
+              |  "void" | "false" | "length" | "print") ~idrest
+  id          =  ~keyword letter idrest*
+  idrest      =  "_" | alnum
   intlit      =  digit+
   floatlit    =  digit+ "." digit+ (("E"|"e") ("+"|"-")? digit+)?
   char        =  escape
