@@ -1,0 +1,8 @@
+// This is a complete Carlos program.  When executed, it writes
+// "hello, world" to standard output.
+
+string greeting = "hello";
+print greeting;
+print ", ";
+print place();
+string place() {return "world";}

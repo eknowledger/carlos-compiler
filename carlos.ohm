@@ -1,5 +1,102 @@
 Carlos {
 
-  Program = Statement+
-  Statement = "break" ";"
+  Program     =  Stmt+
+  Stmt        =  Dec                        -- declaration
+              |  Assignment ";"             -- assignment
+              |  Call ";"                   -- call
+              |  "break" ";"                -- break
+              |  "return" Exp? ";"          -- return
+              |  "print" Args ";"           -- print
+              |  "if" Exp Block
+                 ("else" "if" Exp Block)*
+                 ("else" Block)?            -- if
+              |  "while" Exp Block          -- while
+              |  "for" "("
+                 (Type id "=" Exp)? ";"
+                 Exp? ";"
+                 Assignment? ")"
+                 Block                      -- for
+  Assignment  =  Increment                  -- increment
+              |  Var "=" Exp                -- plain
+  Increment   =  incop Var                  -- prefix
+              |  Var incop                  -- postfix
+  Dec         =  TypeDec | VarDec | FunDec
+  TypeDec     =  "struct" id "{"
+                 (Type id ";")*
+                 "}"
+  Type        =  Type "[" "]"               -- array
+              |  primtype
+              |  id
+  VarDec      =  Type id ("=" Exp)? ";"
+  FunDec      =  (Type | "void") id "(" Params ")" Block
+  Params      =  (Type id ("," Type id)*)?
+  Block       =  "{" Stmt* "}"
+  Exp         =  Exp "||" Exp1              -- or
+              |  Exp1
+  Exp1        =  Exp1 "&&" Exp2             -- and
+              |  Exp2
+  Exp2        =  Exp2 "|" Exp3              -- binary_or
+              |  Exp3
+  Exp3        =  Exp3 "^" Exp4              -- binary_xor
+              |  Exp4
+  Exp4        =  Exp4 "&" Exp5              -- binary_and
+              |  Exp5
+  Exp5        =  Exp6 relop Exp6            -- relation
+              |  Exp6
+  Exp6        =  Exp6 shiftop Exp7          -- shift
+              |  Exp7
+  Exp7        =  Exp7 addop Exp8            -- add
+              |  Exp8
+  Exp8        =  Exp8 mulop Exp9            -- times
+              |  Exp9
+  Exp9        =  prefixop? Exp10            -- unary
+  Exp10       =  Literal
+              |  Increment
+              |  Var
+              |  NewObject
+              |  NewArray
+              |  EmptyArray
+              |  "(" Exp ")"                -- parens
+  Literal     =  "null"
+              |  "true"
+              |  "false"
+              |  floatlit
+              |  intlit
+              |  charlit
+              |  stringlit
+  Var         =  Var "[" Exp "]"            -- subscript
+              |  Var "." id                 -- select
+              |  Call
+              |  id
+  NewObject   =  "new" id "{" Args "}"
+  NewArray    =  "new" Type_array "{" Args "}"
+  EmptyArray  =  "new" Type "[" Exp "]"
+  Call        =  id "(" Args ")"
+  Args        =  (Exp ("," Exp)*)?
+
+
+  keyword     =  ("boolean" | "if" | "break" | "else" | "int"
+              |  "for" | "new" | "return" | "char" | "struct"
+              |  "null" | "while" | "real" | "true" | "string"
+              |  "void" | "false" | "length" | "print") ~alnum
+  id          =  ~keyword letter alnum*
+  intlit      =  digit+
+  floatlit    =  digit+ "." digit+ (("E"|"e") ("+"|"-")? digit+)?
+  char        =  escape
+              |  ~"\\" ~"\"" ~"'" ~"\n" any
+  h           =  hexDigit
+  escape      =  "\\\\" | "\\\"" | "\\'" | "\\n" | "\\t" | hexseq
+  hexseq      =  "\\" h h? h? h? h? h? h? h? ";"
+  charlit     =  "'" (char | "\"") "'"
+  stringlit   =  "\"" (char | "\'")* "\""
+  addop       =  "+" | "-"
+  relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
+  shiftop     =  "<<" | ">>"
+  mulop       =  "*" | "/" | "%"
+  prefixop    =  "-" | "!" | "~" | "char" | "int" | "string" | "length"
+  incop       =  "++" | "--"
+  primtype    =  "boolean" | "char" | "int" | "real" | "string"
+
+  space       :=  "\x20" | "\x09" | "\x0A" | "\x0D" | comment
+  comment     =  "//" (~"\n" any)* "\n"
 }
