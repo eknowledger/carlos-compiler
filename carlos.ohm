@@ -35,11 +35,11 @@ Carlos {
               |  Exp1
   Exp1        =  Exp1 "&&" Exp2             -- and
               |  Exp2
-  Exp2        =  Exp2 "|" Exp3              -- binary_or
+  Exp2        =  Exp2 "|" Exp3              -- bitwise_or
               |  Exp3
-  Exp3        =  Exp3 "^" Exp4              -- binary_xor
+  Exp3        =  Exp3 "^" Exp4              -- bitwise_xor
               |  Exp4
-  Exp4        =  Exp4 "&" Exp5              -- binary_and
+  Exp4        =  Exp4 "&" Exp5              -- bitwise_and
               |  Exp5
   Exp5        =  Exp6 relop Exp6            -- relation
               |  Exp6
