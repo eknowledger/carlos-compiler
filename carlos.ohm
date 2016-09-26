@@ -31,26 +31,16 @@ Carlos {
   FunDec      =  (Type | "void") id "(" Params ")" Block
   Params      =  (Type id ("," Type id)*)?
   Block       =  "{" Stmt* "}"
-  Exp         =  Exp "||" Exp1              -- or
-              |  Exp1
-  Exp1        =  Exp1 "&&" Exp2             -- and
-              |  Exp2
-  Exp2        =  Exp2 "|" Exp3              -- bitwise_or
-              |  Exp3
-  Exp3        =  Exp3 "^" Exp4              -- bitwise_xor
-              |  Exp4
-  Exp4        =  Exp4 "&" Exp5              -- bitwise_and
-              |  Exp5
-  Exp5        =  Exp6 relop Exp6            -- relation
-              |  Exp6
-  Exp6        =  Exp6 shiftop Exp7          -- shift
-              |  Exp7
-  Exp7        =  Exp7 addop Exp8            -- add
-              |  Exp8
-  Exp8        =  Exp8 mulop Exp9            -- times
-              |  Exp9
-  Exp9        =  Exp10
-              |  prefixop Exp10             -- unary
+  Exp         =  NonemptyListOf<Exp1, "||">
+  Exp1        =  NonemptyListOf<Exp2, "&&">
+  Exp2        =  NonemptyListOf<Exp3, "|">
+  Exp3        =  NonemptyListOf<Exp4, "^">
+  Exp4        =  NonemptyListOf<Exp5, "&">
+  Exp5        =  Exp6 (relop Exp6)?
+  Exp6        =  NonemptyListOf<Exp7, shiftop>
+  Exp7        =  NonemptyListOf<Exp8, addop>
+  Exp8        =  NonemptyListOf<Exp9, mulop>
+  Exp9        =  prefixop? Exp10
   Exp10       =  Literal
               |  Increment
               |  Var
@@ -95,7 +85,7 @@ Carlos {
   relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
   shiftop     =  "<<" | ">>"
   mulop       =  "*" | "/" | "%"
-  prefixop    =  "-" | "!" | "~" | "char" | "int" | "string" | "length"
+  prefixop    =  ~"--" "-" | "!" | "~" | "char" | "int" | "string" | "length"
   incop       =  "++" | "--"
   primtype    =  "boolean" | "char" | "int" | "real" | "string"
 
